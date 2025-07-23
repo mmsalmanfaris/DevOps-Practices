@@ -6,6 +6,6 @@ COPY . .
 
 RUN npm install
 
-CMD [ "npm" "start" ]
+CMD [ "server.js"]
 
 
