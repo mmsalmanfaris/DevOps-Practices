@@ -6,6 +6,5 @@ metadata:
     app: worker
 spec:
   containers:
-    - name: worker
-      image: dockersamples/examplevotingaapp_worker
-      
+  - name: worker
+    image: dockersamples/examplevotingapp_worker
