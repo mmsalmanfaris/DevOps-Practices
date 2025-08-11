@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     app: vote
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: "vote-service"
     port: 8080
