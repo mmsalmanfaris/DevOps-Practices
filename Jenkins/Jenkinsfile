@@ -1,0 +1,27 @@
+pipeline{
+    agent any
+
+    stages{
+        stage('Building'){
+            agent {docker 'ubuntu:alpine'}
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage('Unit Testing'){
+            steps{
+                script{
+                    junit 'target/surefile-report.xml'
+                }
+            }
+        }
+        stage('Deploy'){
+            when{
+                expression { branch == 'main'}
+            }
+            steps{
+                sh 'deploy.sh'
+            }
+        }
+    }
+}
