@@ -1,0 +1,53 @@
+pipeline{
+    agent any
+    environment{
+        var1 = 'salman'
+        var2 = 'faris`'
+    }
+    stages{
+        stage('Build'){
+            steps{
+                sh 'echo $var1'
+            }
+        }
+        stage('Testing'){
+            environment {var1 = 'DevOps'}
+            steps{
+                sh 'echo var1'
+            }
+        }
+        stage('Deploy'){
+            when{
+                expression {branch == 'main'}
+            }
+            steps{
+                sh 'deploy.sh'
+            }
+        }
+        stage('Credentials'){
+            steps{
+                withCredentials([credentialsId: 'myCredentials'])
+                echo 'Username: $username'
+            }
+        }
+    }
+    //after the pipeline completed
+    post{
+        always {
+            slackNotifier(
+                channel: 'name'
+                message: '${currentBuild.result}'
+            )
+        }
+        success{
+            script{
+
+            }
+        }
+        failure{
+            script{
+
+            }
+        }
+    }
+}
