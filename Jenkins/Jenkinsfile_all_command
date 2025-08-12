@@ -9,6 +9,7 @@ pipeline{
             steps{
                 sh 'echo $var1'
             }
+            stash name: 'build-artifacts'
         }
         stage('Testing'){
             environment {var1 = 'DevOps'}
@@ -23,6 +24,7 @@ pipeline{
             steps{
                 sh 'deploy.sh'
             }
+            unstash name: 'build-artifacts'
         }
         stage('Credentials'){
             steps{
@@ -31,6 +33,15 @@ pipeline{
             }
         }
     }
+    parallel{
+        stage('unit-testing'){
+
+        }
+        stage('vulnerability-testing'){
+            
+        }
+    }
+
     //after the pipeline completed
     post{
         always {
