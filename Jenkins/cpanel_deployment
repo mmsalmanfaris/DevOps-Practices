@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Version') {
+            steps {
+                sh 'node --version'
+                sh 'npm --version'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Deploy to cPanel via FTP') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'cpanel-ftp-creds', usernameVariable: 'FTP_USER', passwordVariable: 'FTP_PASS')]) {
+            sh '''
+                lftp -u "$FTP_USER","$FTP_PASS" -e "set ssl:verify-certificate no; mirror -R dist /; bye" ftp.</---/>.lk
+            '''
+        }
+    }
+}
+
+    }
+}
