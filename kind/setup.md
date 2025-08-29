@@ -39,3 +39,7 @@ Load the image in to the kind (By default it not pull)
 kind load docker-image name --name name
 ```
 
+Port Forwarding to access the nortport service
+
+```bash
+kubectl port-forward svc/name 1500:80
