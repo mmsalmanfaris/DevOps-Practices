@@ -28,3 +28,17 @@ resource "aws_iam_user_policy_attachment" "testing-policy-attachment" {
 
   policy_arn = aws_iam_policy.testing-aws_iam_policy.arn
 }
+
+resource "aws_s3_bucket" "kodekloud" {
+  bucket = "kodekloud-25092025"
+  tags = {
+    Description="Learing and certification"
+  }
+}
+
+resource "aws_s3_object" "kodekloud" {
+  bucket = aws_s3_bucket.kodekloud.id
+  key    = "/tesing/iam.tf"
+  source = "./iam.tf"
+  etag = filemd5("./iam.tf")
+}
